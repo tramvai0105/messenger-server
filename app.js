@@ -29,6 +29,7 @@ app.use('/friends', friendsRouter);
 app.use('/file', fileRouter);
 app.use('/images', express.static('images'));
 
+console.log(process.env.SERVER_IP);
 
 async function mongoConnection() {
   try{

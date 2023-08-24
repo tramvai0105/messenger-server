@@ -18,7 +18,7 @@ class fileController{
         avatar.mv(avatarPath)
         let user = await User.findById(req.user.id);
         if(user.avatar != `http://${process.env.SERVER_IP}/images/elvis.jpg`){
-            let avatarPath = user.avatar.split("http://localhost:5000")[1]
+            let avatarPath = user.avatar.split(`http://${process.env.SERVER_IP}`)[1]
             fs.unlink(`.${avatarPath}`, (e)=>{
                 if(e){console.log(e)}else{}
             })
@@ -34,7 +34,7 @@ class fileController{
             return
         }
         let avatar = user.avatar
-        let avatarPath = user.avatar.split("http://localhost:5000")[1]
+        let avatarPath = user.avatar.split(`${process.env.SERVER_IP}`)[1]
         if(!fs.existsSync(`.${avatarPath}`)){
             avatar = `http://${process.env.SERVER_IP}/images/elvis.jpg`
             user.avatar = avatar;
