@@ -42,6 +42,7 @@ class authController{
             return res.status(400).json({message:`Неправильный пароль`});
         }
         const token = generateAccessToken(user._id);
+        console.log(`${username} is logged in!`);
         return res.json({token, avatar: user.avatar})
     }
 

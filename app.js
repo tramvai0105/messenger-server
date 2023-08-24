@@ -31,7 +31,11 @@ app.use('/images', express.static('images'));
 
 
 async function mongoConnection() {
-  await db.connect('mongodb://127.0.0.1:27017/soc');
+  try{
+    await db.connect('mongodb://127.0.0.1:27017/soc');
+  } catch(err){
+    console.log(err);
+  }
 }
 
 function wsAuthMiddleware(msg){

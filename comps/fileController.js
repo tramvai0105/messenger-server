@@ -30,6 +30,9 @@ class fileController{
 
     async getUserAvatar(req, res){
         const user = await User.findById(req.user.id);
+        if(!user){
+            return
+        }
         let avatar = user.avatar
         let avatarPath = user.avatar.split("http://localhost:5000")[1]
         if(!fs.existsSync(`.${avatarPath}`)){

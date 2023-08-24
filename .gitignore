@@ -6,7 +6,6 @@
 .pnp.js
 
 # images folder
-images/
 
 # testing
 /coverage
