@@ -28,6 +28,7 @@ class authController{
         const friends = new Friends({userId: user._id})
         await user.save();
         await friends.save();
+        console.log(`${username} is registered`);
         return res.json({message: "Пользователь успешно зарегистрирован"})
     }
 

@@ -7,6 +7,8 @@
 
 # images folder
 
+.env
+
 # testing
 /coverage
 

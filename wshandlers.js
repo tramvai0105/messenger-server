@@ -37,7 +37,7 @@ class WSHandlers{
             const message = new this.Message({
             from: senderId,
             to: receiverId,
-            body: JSON.stringify("http://localhost:5000/" + "images/" + `${name}.png`),
+            body: JSON.stringify(`http://${process.env.SERVER_IP}/` + "images/" + `${name}.png`),
             type: "img"
             })
             console.log(message)
@@ -45,8 +45,11 @@ class WSHandlers{
             msg._id = savedMsg._id.toString();
             msg.time = savedMsg.time;
             msg.body = savedMsg.body;
-            this.sendToUser(ws, msg, senderId);
-            this.sendToUser(ws, msg, receiverId);
+            let msgToSender = msg;
+            msgToSender.method = "confirm";
+            let msgToReceiver = msg;
+            this.sendToUser(ws, msgToSender, senderId);
+            this.sendToUser(ws, msgToReceiver, receiverId);
         } 
         if(msg.type == "text"){
             const message = new this.Message({
@@ -58,14 +61,19 @@ class WSHandlers{
             let savedMsg = await message.save();
             msg._id = savedMsg._id.toString();
             msg.time = savedMsg.time;
-            this.sendToUser(ws, msg, senderId);
-            this.sendToUser(ws, msg, receiverId);
+            let msgToSender = msg;
+            msgToSender.method = "confirm";
+            let msgToReceiver = msg;
+            this.sendToUser(ws, msgToSender, senderId);
+            this.sendToUser(ws, msgToReceiver, receiverId);
         }
     }
 
     async deleteHandler(ws, msg){
+        try{
         const from = ((await this.User.findOne({username:msg.from}))._id).toString();
         const to = ((await this.User.findOne({username:msg.to}))._id).toString();
+        
         let message = await this.Message.findOne({_id: msg._id})
         if(message.type == "img"){
             let imgPath = JSON.parse(message.body).split("http://localhost:5000")[1]
@@ -74,8 +82,10 @@ class WSHandlers{
             })
         }
         await this.Message.deleteOne({_id: msg._id})
+        
         this.sendToUser(ws, msg, from);
         this.sendToUser(ws, msg, to);
+        }catch(err){console.log(err);}
     }
 
     sendToUser(ws, msg, userId){
