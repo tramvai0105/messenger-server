@@ -46,8 +46,18 @@ class WSHandlers{
             msg.time = savedMsg.time;
             msg.body = savedMsg.body;
             let msgToSender = msg;
+            let msgToReceiver = {
+                _id: msg._id,
+                username: msg.username,
+                token: msg.token,
+                method: "message",
+                to: msg.to,
+                time: savedMsg.time,
+                body: savedMsg.body,
+                type: msg.type,
+                mark: msg.mark,
+                };
             msgToSender.method = "confirm";
-            let msgToReceiver = msg;
             this.sendToUser(ws, msgToSender, senderId);
             this.sendToUser(ws, msgToReceiver, receiverId);
         } 
@@ -62,8 +72,17 @@ class WSHandlers{
             msg._id = savedMsg._id.toString();
             msg.time = savedMsg.time;
             let msgToSender = msg;
+            let msgToReceiver = {
+                username: msg.username,
+                token: msg.token,
+                method: "message",
+                to: msg.to,
+                body: msg.body,
+                type: msg.type,
+                mark: msg.mark,
+                };
             msgToSender.method = "confirm";
-            let msgToReceiver = msg;
+            console.log(msg);
             this.sendToUser(ws, msgToSender, senderId);
             this.sendToUser(ws, msgToReceiver, receiverId);
         }
