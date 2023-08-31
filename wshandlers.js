@@ -78,6 +78,7 @@ class WSHandlers{
                 method: "message",
                 to: msg.to,
                 body: msg.body,
+                time: savedMsg.time,
                 type: msg.type,
                 mark: msg.mark,
                 };
