@@ -7,9 +7,9 @@
 
 # images folder
 
-images/
+images/*
 
-!images/elvis
+!elvis.jpg
 
 .env
 
