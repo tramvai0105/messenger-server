@@ -53,6 +53,10 @@ class authController{
         if(!username || username.length > 20 || 4 > username.length || username.includes(" ")){
             return res.status(400).json({message:"Некоректное имя пользователя"})
         } 
+        const candidate = await User.findOne({username})
+        if(candidate){
+            return res.status(400).json({message: "Пользователь с таким именем уже существует"})
+        }
         const user = await User.findOne({_id: id})
         user.username = username;
         await user.save()
