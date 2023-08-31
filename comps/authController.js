@@ -47,6 +47,18 @@ class authController{
         return res.json({token, avatar: user.avatar})
     }
 
+    async changeLogin(req, res){
+        let {id} = req.user;
+        let {username} = req.body;
+        if(!username || username.length > 20 || 4 > username.length || username.includes(" ")){
+            return res.status(400).json({message:"Некоректное имя пользователя"})
+        } 
+        const user = await User.findOne({_id: id})
+        user.username = username;
+        await user.save()
+        return res.status(200).json({message: "Имя пользователя успешно изменено"})
+    }
+
     async check(req, res){
         try{
             if(!req.headers.authorization){
